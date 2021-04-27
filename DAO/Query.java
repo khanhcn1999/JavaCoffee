@@ -180,7 +180,7 @@ public class Query {
         return null;
     }
     public boolean DeleteCTKM(String a, String b){
-        String query = "delete from " + tableCTKM + " where MaKM = ? && MaMon = ?";
+        String query = "delete from " + tableCTKM + " where MaKM = ? and MaMon = ?";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, a);
@@ -192,7 +192,7 @@ public class Query {
         return false;
     }
     public boolean UpdateCTKM(ChiTietCTKM ctkm, String a, String b){
-        String query = "update " + tableCTKM + " set %GG = ? where MaKM = ? && MaMon = ?";
+        String query = "update " + tableCTKM + " set %GG = ? where MaKM = ? and MaMon = ?";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setDouble(1, ctkm.getGG());
@@ -259,7 +259,7 @@ public class Query {
         return false;
     }
     public boolean DeleteCTHD(String a, String b){
-        String query = "delete from " + tableCTHD + " where (MaHD = ? && MaMon = ? )";
+        String query = "delete from " + tableCTHD + " where (MaHD = ? and MaMon = ? )";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, a);
@@ -271,7 +271,7 @@ public class Query {
         return false;
     }
     public boolean UpdateCTHD(ChiTietHD cthd, String a, String b){
-        String query = "update " + tableCTHD + " set SoLuong = ?, DonGia = ?, ThanhTien = ? where (MaHD = ? && MaMon = ? )";
+        String query = "update " + tableCTHD + " set SoLuong = ?, DonGia = ?, ThanhTien = ? where (MaHD = ? and MaMon = ? )";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setDouble(1, cthd.getSoLuong());
@@ -400,7 +400,7 @@ public class Query {
         return false;
     }
     public boolean UpdateCTSP(ChiTietSP ctsp, String a, String b){
-        String query = "update " + tableCTSP + " set KhoiLuongLuong = ?, DonViTinh = ? where (MaMon = ? && MaNL = ? )";
+        String query = "update " + tableCTSP + " set KhoiLuongLuong = ?, DonViTinh = ? where (MaMon = ? and MaNL = ? )";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setDouble(1, ctsp.getKhoiLuong());

@@ -30,9 +30,9 @@ public class Login {
         frame.setUndecorated(true);
         frame.setBackground(new Color(0,0,0,0));
 
-        pLeft = new RoundedPanel(50, Color.WHITE);
+        pLeft = new RoundedPanel(50, new Color(155, 207, 243));
         pLeft.setOpaque(false);
-        pRight = new RoundedPanel(50, new Color(155, 207, 243));
+        pRight = new RoundedPanel(50, Color.WHITE);
         pLeft.setBounds(30,30,600,400);
         pRight.setBounds(380,50,580,400);
         pLeft.setLayout(null);
@@ -42,15 +42,15 @@ public class Login {
         Name1 = new JLabel("Châu Ngọc Khanh");
         Name2 = new JLabel("Trần Đăng Khoa");
         Name3 = new JLabel("Lao Gia Hào");
-        Name4 = new JLabel("Huỳnh Hồng Chi");
+        Name4 = new JLabel("Huỳnh Thị Hồng Chi");
         Name1.setFont(new Font("Arial", Font.ITALIC, 14));
         Name2.setFont(new Font("Arial", Font.ITALIC, 14));
         Name3.setFont(new Font("Arial", Font.ITALIC, 14));
         Name4.setFont(new Font("Arial", Font.ITALIC, 14));
-        Name1.setForeground(Color.WHITE);
-        Name2.setForeground(Color.WHITE);
-        Name3.setForeground(Color.WHITE);
-        Name4.setForeground(Color.WHITE);
+        Name1.setForeground(Color.BLUE);
+        Name2.setForeground(Color.BLUE);
+        Name3.setForeground(Color.BLUE);
+        Name4.setForeground(Color.BLUE);
         Name1.setBounds(30,250,150,20);
         Name2.setBounds(30,280,150,20);
         Name3.setBounds(30,310,150,20);
@@ -60,20 +60,20 @@ public class Login {
         pLeft.add(Name3);
         pLeft.add(Name4);
         
-        lbB = new JLabel("Black &");
+        lbB = new JLabel("Blue &");
         lbW = new JLabel("& White");
-        lbB.setForeground(Color.WHITE);
+        lbB.setForeground(Color.BLUE);
         lbW.setForeground(Color.BLACK);
         lbB.setFont(new Font("Courier New", Font.ITALIC, 40));
         lbW.setFont(new Font("Courier New", Font.ITALIC, 40));
-        lbB.setBounds(180,40,400,50);
+        lbB.setBounds(200,40,400,50);
         lbW.setBounds(0,20,400,50);
         pRight.add(lbW);
         pLeft.add(lbB);
         
         lb1 = new JLabel("Energy = Milk");
         lb2 = new JLabel("pow(Coffee, 2)");
-        lb1.setForeground(Color.WHITE);
+        lb1.setForeground(Color.BLUE);
         lb2.setForeground(Color.BLACK);
         lb1.setFont(new Font("Courier New", Font.ITALIC, 20));
         lb2.setFont(new Font("Courier New", Font.ITALIC, 20));

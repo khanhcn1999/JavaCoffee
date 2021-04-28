@@ -1,69 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package BUS;
 
-import DAO.NhanVienDAO;
-import DTO.NhanVienDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-/**
- *
- * @author Dell
- */
+import DAO.NhanVienDAO;
+import DTO.NhanVien;
+
 public class NhanVienBUS {
-    public static ArrayList<NhanVienDTO> DSNV;
+    public static ArrayList<NhanVien> DSNV;
 
     public NhanVienBUS() {
     }
-    public void docDSNV(){
+    public ArrayList<NhanVien> docDSNV(){
         try {
             NhanVienDAO data=new NhanVienDAO();
-            if(DSNV==null) DSNV=new ArrayList<NhanVienDTO>();
+            if(DSNV==null) DSNV=new ArrayList<NhanVien>();
             DSNV=data.docDSNV();
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienBUS.class.getName()).log(Level.SEVERE, null, ex);
         }
+		return DSNV;
     }
-    public void themNV(NhanVienDTO nv){
+    void addNV(NhanVien nv){
         try {
             NhanVienDAO data=new NhanVienDAO();
-            data.add(nv);
+            data.addNV(nv);
             DSNV.add(nv);
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienBUS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public ArrayList<NhanVienDTO> timKiem(String keyword){
-        ArrayList<NhanVienDTO> nvList=new ArrayList<>();
-        nvList=null;
-        for(NhanVienDTO nv: DSNV)
-//            if(nv.getMaNV().contains(keyword) || nv.getTenNv().contains(keyword)) 
-             if(Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(nv.getTenNv()).find()
-                     || nv.getMaNV().contains(keyword))
-            nvList.add(nv);
-        return nvList;
+    NhanVien timkiem(String manv){
+        for(NhanVien nv: DSNV)
+            if(nv.getMaNV()==manv) return nv;
+        return null;
     }
-    public void suaNV(int index, NhanVienDTO nv){
+    void sua(NhanVien nv){
         try {
             NhanVienDAO data=new NhanVienDAO();
-            data.update(nv);
-            DSNV.set(index, nv);
+            data.updateNV(nv);
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienBUS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setTTLamviec(String manv, String b){
+    void thoiViec(String manv){
         try {
             NhanVienDAO data=new NhanVienDAO();
-            data.TTLamviec(manv,b);
+            data.updateThoiViec(manv);
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienBUS.class.getName()).log(Level.SEVERE, null, ex);
         }

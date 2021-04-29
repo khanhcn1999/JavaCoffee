@@ -25,7 +25,7 @@ public class DS_HD {
     JComboBox cb;
     
     JTable tblHD, tblCTHD;
-    JPanel jp1, jp2;
+    JPanel pHD, pCTHD, pBG;
     
     GetData data = new GetData();
     
@@ -36,17 +36,20 @@ public class DS_HD {
         frame.setUndecorated(true);
         
         Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
-        jp1 = new JPanel();
-        jp1.setBackground(new Color(155, 207, 243));
-        jp1.setLayout(null);
-        jp1.setBounds(0,0,1250,100);
-        jp1.setBorder(BorderFactory.createTitledBorder(blackBorder, " Hóa Đơn   ",TitledBorder.CENTER, TitledBorder.BOTTOM));
-        jp2 = new JPanel();
-        jp2.setBackground(new Color(155, 207, 243));
-        jp2.setLayout(null);
-        jp2.setBounds(20, 420, 850, 240);
-        jp2.setBorder(BorderFactory.createTitledBorder(blackBorder, " Chi Tiết Hóa Đơn   ",TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-        
+        pHD = new JPanel();
+        pHD.setBackground(new Color(155, 207, 243));
+        pHD.setLayout(null);
+        pHD.setBounds(0,0,1250,100);
+        pHD.setBorder(BorderFactory.createTitledBorder(blackBorder, " Hóa Đơn   ",TitledBorder.CENTER, TitledBorder.BOTTOM));
+        pCTHD = new JPanel();
+        pCTHD.setBackground(new Color(155, 207, 243));
+        pCTHD.setLayout(null);
+        pCTHD.setBounds(20, 420, 850, 240);
+        pCTHD.setBorder(BorderFactory.createTitledBorder(blackBorder, " Chi Tiết Hóa Đơn   ",TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
+        pBG = new JPanel();
+        pBG.setBackground(new Color(255,251,164));
+        pBG.setLayout(null);
+        pBG.setBounds(0,0,1250,700);
         
 // Hóa Đơn        
         txMaHD = new JTextField();
@@ -86,29 +89,29 @@ public class DS_HD {
         txTongKM.setBounds(660,60,100,20);
         lbTongTT.setBounds(770,60,100,20);
         txTongTT.setBounds(870,60,100,20);
-        jp1.add(lbMaHD);
-        jp1.add(txMaHD);
-        jp1.add(lbMaTV);
-        jp1.add(txMaTV);
-        jp1.add(lbMaNV);
-        jp1.add(txMaNV);
-        jp1.add(lbMaKM);
-        jp1.add(txMaKM);
-        jp1.add(lbNgayLHD);
-        jp1.add(txNgayLHD);       
-        jp1.add(lbTongTien);
-        jp1.add(txTongTien);       
-        jp1.add(lbTongKM);
-        jp1.add(txTongKM);       
-        jp1.add(lbTongTT);
-        jp1.add(txTongTT);
-        frame.add(lbSearch);
-        frame.add(txSearch);
+        pHD.add(lbMaHD);
+        pHD.add(txMaHD);
+        pHD.add(lbMaTV);
+        pHD.add(txMaTV);
+        pHD.add(lbMaNV);
+        pHD.add(txMaNV);
+        pHD.add(lbMaKM);
+        pHD.add(txMaKM);
+        pHD.add(lbNgayLHD);
+        pHD.add(txNgayLHD);       
+        pHD.add(lbTongTien);
+        pHD.add(txTongTien);       
+        pHD.add(lbTongKM);
+        pHD.add(txTongKM);       
+        pHD.add(lbTongTT);
+        pHD.add(txTongTT);
+        pBG.add(lbSearch);
+        pBG.add(txSearch);
         
         String c[] = {"Mã hóa đơn", "Mã nhân viên", "Mã thành viên", "Mã khuyến mãi"};
         cb = new JComboBox(c);
         cb.setBounds(325,120,140,20);
-        frame.add(cb);
+        pBG.add(cb);
         
         modelHD = new DefaultTableModel();
         tblHD = new JTable();
@@ -123,7 +126,7 @@ public class DS_HD {
         modelHD.addColumn("Tổng khuyến mãi");
         modelHD.addColumn("Tiền thanh toán");
         jcHD.setBounds(20,160,850,200);
-        frame.add(jcHD);
+        pBG.add(jcHD);
         if(GetData.dshd == null){
             data.LoadHD();
         }
@@ -152,11 +155,11 @@ public class DS_HD {
         btCapNhat.setBounds(1100,20,100,20);
         btXoa.setBounds(1040,60,100,20);
         btThoat.setBounds(20,20,20,20);
-        jp1.add(btThem);
-        jp1.add(btCapNhat);
-        jp1.add(btXoa);
-        jp1.add(btThoat);
-        frame.add(jp1);
+        pHD.add(btThem);
+        pHD.add(btCapNhat);
+        pHD.add(btXoa);
+        pHD.add(btThoat);
+        pBG.add(pHD);
         
         btThem.addActionListener(new ActionListener(){
            @Override
@@ -427,18 +430,18 @@ public class DS_HD {
         txDonGia.setBounds(380,70,150,20);
         lbTT.setBounds(20,110,100,20);
         txTT.setBounds(120,110,150,20);
-        jp2.add(lbMaHDCT);
-        jp2.add(txMaHDCT);
-        jp2.add(lbMaMon);
-        jp2.add(txMaMon);
-        jp2.add(lbSoLuong);
-        jp2.add(txSoLuong);
-        jp2.add(lbDonGia);
-        jp2.add(txDonGia);
-        jp2.add(lbTT);
-        jp2.add(txTT);
-        frame.add(lbSearchCT);
-        frame.add(txSearchCT);
+        pCTHD.add(lbMaHDCT);
+        pCTHD.add(txMaHDCT);
+        pCTHD.add(lbMaMon);
+        pCTHD.add(txMaMon);
+        pCTHD.add(lbSoLuong);
+        pCTHD.add(txSoLuong);
+        pCTHD.add(lbDonGia);
+        pCTHD.add(txDonGia);
+        pCTHD.add(lbTT);
+        pCTHD.add(txTT);
+        pBG.add(lbSearchCT);
+        pBG.add(txSearchCT);
         
         btXoaCT = new JButton("Xóa");
         btXoaCT.setBorder(BorderFactory.createEmptyBorder());
@@ -455,10 +458,10 @@ public class DS_HD {
         btThemCT.setBounds(570,30,100,20);
         btCapNhatCT.setBounds(700,30,100,20);
         btXoaCT.setBounds(630,70,100,20);
-        jp2.add(btThemCT);
-        jp2.add(btCapNhatCT);
-        jp2.add(btXoaCT);
-        frame.add(jp2);
+        pCTHD.add(btThemCT);
+        pCTHD.add(btCapNhatCT);
+        pCTHD.add(btXoaCT);
+        pBG.add(pCTHD);
 
         modelCTHD = new DefaultTableModel();
         tblCTHD = new JTable();
@@ -470,7 +473,7 @@ public class DS_HD {
         modelCTHD.addColumn("Đơn giá");
         modelCTHD.addColumn("Thành tiền");
         jcCTHD.setBounds(900,160,305,500);
-        frame.add(jcCTHD);
+        pBG.add(jcCTHD);
         if(GetData.dscthd == null){
             data.LoadCTHD();
         }
@@ -478,6 +481,8 @@ public class DS_HD {
             modelCTHD.addRow(new String[] {cthd.getMaHD(), cthd.getMaMon(), String.valueOf(cthd.getSoLuong()), String.valueOf(cthd.getDonGia()), String.valueOf(cthd.getThanhTien())});
         }        
         tblCTHD.setModel(modelCTHD);
+        
+        frame.add(pBG);
         
         txSearchCT.getDocument().addDocumentListener(new DocumentListener() {
             @Override

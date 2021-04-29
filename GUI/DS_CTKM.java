@@ -25,7 +25,7 @@ public class DS_CTKM {
     JComboBox cb;
     
     JTable tblKM, tblCTKM;
-    JPanel pKM, pCTKM;
+    JPanel pKM, pCTKM, pBG;
     
     GetData data = new GetData();
     
@@ -46,13 +46,17 @@ public class DS_CTKM {
         pCTKM.setLayout(null);
         pCTKM.setBounds(20, 420, 850, 240);
         pCTKM.setBorder(BorderFactory.createTitledBorder(blackBorder, "  Chi Tiết Khuyến Mãi  ",TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));   
+        pBG = new JPanel();
+        pBG.setBackground(new Color(255,251,164));
+        pBG.setLayout(null);
+        pBG.setBounds(0,0,1250,700);
         
 // Chương Trình Khuyến Mãi
 
         String c[] = {"Mã khuyến mãi", "Tên chương trình"};
         cb = new JComboBox(c);
         cb.setBounds(300,120,140,20);
-        frame.add(cb);
+        pBG.add(cb);
         
         txMaKM = new JTextField();
         txTenCT = new JTextField();
@@ -83,8 +87,8 @@ public class DS_CTKM {
         pKM.add(txNgayBD);
         pKM.add(lbNgayKT);
         pKM.add(txNgayKT);
-        frame.add(lbTimKiemKM);
-        frame.add(txTimKiemKM);
+        pBG.add(lbTimKiemKM);
+        pBG.add(txTimKiemKM);
 
         btXoa = new JButton("Xóa");
         btXoa.setBorder(BorderFactory.createEmptyBorder());
@@ -110,7 +114,7 @@ public class DS_CTKM {
         pKM.add(btCapNhat);
         pKM.add(btXoa);
         pKM.add(btThoat);
-        frame.add(pKM);
+        pBG.add(pKM);
         
         modelKM = new DefaultTableModel();
         tblKM = new JTable();
@@ -121,7 +125,7 @@ public class DS_CTKM {
         modelKM.addColumn("Ngày bắt đầu");
         modelKM.addColumn("Ngày kết thúc");
         jcKM.setBounds(20,160,850,220);
-        frame.add(jcKM);
+        pBG.add(jcKM);
         if(data.dsctkm == null){
             data.LoadKM();
         }
@@ -366,8 +370,8 @@ public class DS_CTKM {
         pCTKM.add(txMaMon);
         pCTKM.add(lbGG);
         pCTKM.add(txGG);
-        frame.add(lbTimKiemCTKM);
-        frame.add(txTimKiemCTKM);
+        pBG.add(lbTimKiemCTKM);
+        pBG.add(txTimKiemCTKM);
         
         btXoaCT = new JButton("Xóa");
         btXoaCT.setBorder(BorderFactory.createEmptyBorder());
@@ -387,7 +391,7 @@ public class DS_CTKM {
         pCTKM.add(btThemCT);
         pCTKM.add(btCapNhatCT);
         pCTKM.add(btXoaCT);
-        frame.add(pCTKM);
+        pBG.add(pCTKM);
 
         modelCTKM = new DefaultTableModel();
         tblCTKM = new JTable();
@@ -397,7 +401,7 @@ public class DS_CTKM {
         modelCTKM.addColumn("Mã món");
         modelCTKM.addColumn("% giảm giá");
         jcCTKM.setBounds(900,160,305,500);
-        frame.add(jcCTKM);
+        pBG.add(jcCTKM);
         if(GetData.dskmct == null){
             data.LoadCTKM();
         }
@@ -405,6 +409,8 @@ public class DS_CTKM {
             modelCTKM.addRow(new String[] {kmct.getMaKM(), kmct.getMaMon(), String.valueOf(kmct.getGG())});
         }        
         tblCTKM.setModel(modelCTKM);
+        
+        frame.add(pBG);
         
         txTimKiemCTKM.getDocument().addDocumentListener(new DocumentListener() {
             @Override

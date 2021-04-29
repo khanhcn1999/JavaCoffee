@@ -60,14 +60,14 @@ public class Login {
         pLeft.add(Name3);
         pLeft.add(Name4);
         
-        lbB = new JLabel("Blue &");
-        lbW = new JLabel("& White");
+        lbB = new JLabel("Beach");
+        lbW = new JLabel("House");
         lbB.setForeground(Color.BLUE);
         lbW.setForeground(Color.BLACK);
         lbB.setFont(new Font("Courier New", Font.ITALIC, 40));
         lbW.setFont(new Font("Courier New", Font.ITALIC, 40));
-        lbB.setBounds(200,40,400,50);
-        lbW.setBounds(0,20,400,50);
+        lbB.setBounds(220,40,400,50);
+        lbW.setBounds(8,20,400,50);
         pRight.add(lbW);
         pLeft.add(lbB);
         

@@ -89,7 +89,7 @@ public class MainFrame {
         btNL.setForeground(Color.BLUE);
         
         btDX = new JButton("Đăng Xuất");
-        btDX.setBackground(new Color(155, 207, 243));
+        btDX.setBackground(new Color(255,251,164));
         btDX.setFont(new Font("Arial", Font.ITALIC, 14));
         btDX.setBorder(BorderFactory.createEmptyBorder());
         btDX.setForeground(Color.BLUE);
@@ -130,10 +130,66 @@ public class MainFrame {
                 frame.hide();
             }
         });
+        btNV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_NV();
+                frame.hide();
+            }
+        });
+        btKH.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_TTV();
+                frame.hide();
+            }
+        });
         btSP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 new DS_SP();
+                frame.hide();
+            }
+        });
+        btNV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_NV();
+                frame.hide();
+            }
+        });
+        btNCC.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_NCC();
+                frame.hide();
+            }
+        });
+        btPNH.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_PNH();
+                frame.hide();
+            }
+        });
+        btKH.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_TTV();
+                frame.hide();
+            }
+        });
+        btNL.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_NL();
+                frame.hide();
+            }
+        });
+        btL.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DS_L();
                 frame.hide();
             }
         });

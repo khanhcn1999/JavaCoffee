@@ -12,40 +12,31 @@ import DTO.*;
 
 public class DS_CTKM {
     JFrame frame = new JFrame();
-    DefaultTableModel modelKM, modelCTKM;
+    DefaultTableModel modelKM;
     
     JButton btXoa, btCapNhat, btThem, btThoat;
-    JTextField txMaKM, txTenCT, txNgayBD, txNgayKT, txTimKiemKM;
-    JLabel lbMaKM, lbTenCT, lbNgayBD, lbNgayKT, lbTimKiemKM;
-    
-    JTextField txMaKMCT, txMaMon, txGG , txTimKiemCTKM;
-    JLabel lbMaKMCT, lbMaMon, lbGG, lbTimKiemCTKM;
-    JButton btCapNhatCT, btXoaCT, btThemCT;
+    JTextField txMaKM, txTenCT, txGG, txNgayBD, txNgayKT, txTimKiemKM;
+    JLabel lbMaKM, lbTenCT, lbGG, lbNgayBD, lbNgayKT, lbTimKiemKM;
     
     JComboBox cb;
     
-    JTable tblKM, tblCTKM;
-    JPanel pKM, pCTKM, pBG;
+    JTable tblKM;
+    JPanel pKM, pBG;
     
     GetData data = new GetData();
     
     public DS_CTKM()
     {
-        frame.setSize(1250,700);
+        frame.setSize(1250,500);
         frame.setLayout(null);
         frame.setUndecorated(true);
 
         Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
         pKM = new JPanel();
-        pCTKM = new JPanel();
         pKM.setBackground(new Color(155, 207, 243));
         pKM.setLayout(null);
         pKM.setBounds(0,0,1250,100);
         pKM.setBorder(BorderFactory.createTitledBorder(blackBorder, "  Chương Trình Khuyến Mãi  ",TitledBorder.CENTER, TitledBorder.BOTTOM));
-        pCTKM.setBackground(new Color(155, 207, 243));
-        pCTKM.setLayout(null);
-        pCTKM.setBounds(20, 420, 850, 240);
-        pCTKM.setBorder(BorderFactory.createTitledBorder(blackBorder, "  Chi Tiết Khuyến Mãi  ",TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));   
         pBG = new JPanel();
         pBG.setBackground(new Color(255,251,164));
         pBG.setLayout(null);
@@ -60,29 +51,35 @@ public class DS_CTKM {
         
         txMaKM = new JTextField();
         txTenCT = new JTextField();
+        txGG = new JTextField();
         txNgayBD = new JTextField();
         txNgayKT = new JTextField();
         txTimKiemKM = new JTextField();
         lbMaKM = new JLabel("Mã khuyến mãi");
         lbTenCT = new JLabel("Tên chương trình");
+        lbGG = new JLabel("Giảm giá");
         lbNgayBD = new JLabel("Ngày bắt đầu");
         lbNgayKT = new JLabel("Ngày kết thúc");
         lbTimKiemKM = new JLabel("Tìm Kiếm");
         lbTimKiemKM.setFont(new Font("Arial", Font.ITALIC, 16));
         lbTimKiemKM.setBounds(20, 120, 120, 20);
         txTimKiemKM.setBounds(100, 120, 200, 20);
-        lbMaKM.setBounds(300,20,100,20);
-        txMaKM.setBounds(400,20,150,20);    
-        lbTenCT.setBounds(650,20,150,20);
-        txTenCT.setBounds(760,20,150,20); 
-        lbNgayBD.setBounds(300,60,100,20);
-        txNgayBD.setBounds(400,60,150,20);  
-        lbNgayKT.setBounds(650,60,100,20);
-        txNgayKT.setBounds(760,60,150,20);
+        lbMaKM.setBounds(100,20,100,20);
+        txMaKM.setBounds(200,20,120,20);    
+        lbTenCT.setBounds(400,20,120,20);
+        txTenCT.setBounds(520,20,120,20); 
+        lbGG.setBounds(700,20,80,20);
+        txGG.setBounds(770,20,120,20);
+        lbNgayBD.setBounds(100,60,100,20);
+        txNgayBD.setBounds(200,60,120,20);  
+        lbNgayKT.setBounds(400,60,100,20);
+        txNgayKT.setBounds(520,60,120,20);
         pKM.add(lbMaKM);
         pKM.add(txMaKM);
         pKM.add(lbTenCT);
         pKM.add(txTenCT);
+        pKM.add(lbGG);
+        pKM.add(txGG);
         pKM.add(lbNgayBD);
         pKM.add(txNgayBD);
         pKM.add(lbNgayKT);
@@ -122,17 +119,20 @@ public class DS_CTKM {
         jcKM.setViewportView(tblKM);
         modelKM.addColumn("Mã khuyến mãi");
         modelKM.addColumn("Tên chương trình khuyến mãi");
+        modelKM.addColumn("% Giảm giá");
         modelKM.addColumn("Ngày bắt đầu");
         modelKM.addColumn("Ngày kết thúc");
-        jcKM.setBounds(20,160,850,220);
+        jcKM.setBounds(20,160,1200,220);
         pBG.add(jcKM);
-        if(data.dsctkm == null){
+        if(GetData.dsctkm == null){
             data.LoadKM();
         }
         for(ChuongTrinhKhuyenMai ctkm: GetData.dsctkm){
-            modelKM.addRow(new String[] {ctkm.getMaKM(), ctkm.getTenCT(), ctkm.getNgayBD(), ctkm.getNgayKT()});
+            modelKM.addRow(new String[] {ctkm.getMaKM(), ctkm.getTenCT(), String.valueOf(ctkm.getGG()), ctkm.getNgayBD(), ctkm.getNgayKT()});
         }        
         tblKM.setModel(modelKM);
+        
+        frame.add(pBG);
 
         txTimKiemKM.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -204,35 +204,43 @@ public class DS_CTKM {
             public void actionPerformed(ActionEvent e) {
                 if(!txMaKM.getText().equals("")){
                     if(!txTenCT.getText().equals("")){
-                        if(!txNgayBD.getText().equals("")){
-                            if(!txNgayKT.getText().equals("")){
-                                ChuongTrinhKhuyenMai ctkm = new ChuongTrinhKhuyenMai();
-                                ctkm.setMaKM(txMaKM.getText());
-                                ctkm.setTenCT(txTenCT.getText());
-                                ctkm.setNgayBD(txNgayBD.getText());
-                                ctkm.setNgayKT(txNgayKT.getText());
-                                if(data.InsertKM(ctkm)){
-                                    modelKM.addRow(new String[] {ctkm.getMaKM(), ctkm.getTenCT(), ctkm.getNgayBD(), ctkm.getNgayKT()});
-                                    JOptionPane.showMessageDialog(frame,"Thêm thành công", "Thông báo", JOptionPane.PLAIN_MESSAGE);
-                                    tblKM.setModel(modelKM);
-                                    txMaKM.setText("");
-                                    txTenCT.setText("");
-                                    txNgayBD.setText("");
-                                    txNgayKT.setText("");
-                                    txMaKM.requestFocus();
+                        if(!txGG.getText().equals("")){
+                            if(!txNgayBD.getText().equals("")){
+                                if(!txNgayKT.getText().equals("")){
+                                    ChuongTrinhKhuyenMai ctkm = new ChuongTrinhKhuyenMai();
+                                    ctkm.setMaKM(txMaKM.getText());
+                                    ctkm.setTenCT(txTenCT.getText());
+                                    ctkm.setGG(Double.parseDouble(txGG.getText()));
+                                    ctkm.setNgayBD(txNgayBD.getText());
+                                    ctkm.setNgayKT(txNgayKT.getText());
+                                    if(data.InsertKM(ctkm)){
+                                        modelKM.addRow(new String[] {ctkm.getMaKM(), ctkm.getTenCT(), String.valueOf(ctkm.getGG()), ctkm.getNgayBD(), ctkm.getNgayKT()});
+                                        JOptionPane.showMessageDialog(frame,"Thêm thành công", "Thông báo", JOptionPane.PLAIN_MESSAGE);
+                                        tblKM.setModel(modelKM);
+                                        txMaKM.setText("");
+                                        txTenCT.setText("");
+                                        txGG.setText("");
+                                        txNgayBD.setText("");
+                                        txNgayKT.setText("");
+                                        txMaKM.requestFocus();
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(frame,"Không thể thêm chương trình khuyến mãi","Thông báo",JOptionPane.ERROR_MESSAGE);
+                                    }
                                 }
                                 else{
-                                    JOptionPane.showMessageDialog(frame,"Không thể thêm chương trình khuyến mãi","Thông báo",JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(frame,"Phải điền ngày kết thúc chương trình","Thông báo",JOptionPane.ERROR_MESSAGE);
+                                    txNgayKT.requestFocus();
                                 }
                             }
                             else{
-                                JOptionPane.showMessageDialog(frame,"Phải điền ngày kết thúc chương trình","Thông báo",JOptionPane.ERROR_MESSAGE);
-                                txNgayKT.requestFocus();
+                                JOptionPane.showMessageDialog(frame,"Phải điền ngày bắt đầu chương trình","Thông báo",JOptionPane.ERROR_MESSAGE);
+                                txNgayBD.requestFocus();
                             }
                         }
                         else{
-                            JOptionPane.showMessageDialog(frame,"Phải điền ngày bắt đầu chương trình","Thông báo",JOptionPane.ERROR_MESSAGE);
-                            txNgayBD.requestFocus();
+                            JOptionPane.showMessageDialog(frame,"Phải điền % giảm giá","Thông báo",JOptionPane.ERROR_MESSAGE);
+                            txGG.requestFocus();
                         }
                     }
                     else{
@@ -262,6 +270,7 @@ public class DS_CTKM {
                             JOptionPane.showMessageDialog(frame, "Xóa thành công !!!");
                             txMaKM.setText("");
                             txTenCT.setText("");
+                            txGG.setText("");
                             txNgayBD.setText("");
                             txNgayKT.setText("");
                             txMaKM.requestFocus();
@@ -293,17 +302,20 @@ public class DS_CTKM {
                         ChuongTrinhKhuyenMai ctkm = new ChuongTrinhKhuyenMai();
                         ctkm.setMaKM(txMaKM.getText());
                         ctkm.setTenCT(txTenCT.getText());
+                        ctkm.setGG(Double.parseDouble(txGG.getText()));
                         ctkm.setNgayBD(txNgayBD.getText());
                         ctkm.setNgayKT(txNgayKT.getText());
                         if(data.UpdateKM(ctkm, (String) tblKM.getValueAt(i, 0))){
                             ChuongTrinhKhuyenMai old = GetData.dsctkm.set(i,ctkm);
                             modelKM.setValueAt(ctkm.getMaKM(),i,0);
                             modelKM.setValueAt(ctkm.getTenCT(),i,1);
-                            modelKM.setValueAt(ctkm.getNgayBD(),i,2);
-                            modelKM.setValueAt(ctkm.getNgayKT(),i,3);
+                            modelKM.setValueAt(ctkm.getGG(),i,2);
+                            modelKM.setValueAt(ctkm.getNgayBD(),i,3);
+                            modelKM.setValueAt(ctkm.getNgayKT(),i,4);
                             tblKM.setModel(modelKM);
                             txMaKM.setText("");
                             txTenCT.setText("");
+                            txGG.setText("");
                             txNgayBD.setText("");
                             txNgayKT.setText("");
                             txMaKM.requestFocus();
@@ -328,231 +340,12 @@ public class DS_CTKM {
                     txMaKM.setEditable(false);
                     txMaKM.setText(String.valueOf(modelKM.getValueAt(i,0)));
                     txTenCT.setText(String.valueOf(modelKM.getValueAt(i,1)));
-                    txNgayBD.setText(String.valueOf(modelKM.getValueAt(i,2)));
-                    txNgayKT.setText(String.valueOf(modelKM.getValueAt(i,3)));
-                    try{
-                        modelCTKM.setRowCount(0);
-                        String km = String.valueOf(modelKM.getValueAt(i,0));
-                        for(ChiTietCTKM a: GetData.dskmct){
-                            if(a.getMaKM().contains(km)){
-                                modelCTKM.addRow(new String[] {a.getMaKM(), a.getMaMon(), String.valueOf(a.getGG())});
-                                tblCTKM.setModel(modelCTKM);
-                            }
-                        }  
-                    }catch(Exception E){
-                    }
+                    txGG.setText(String.valueOf(modelKM.getValueAt(i,2)));
+                    txNgayBD.setText(String.valueOf(modelKM.getValueAt(i,3)));
+                    txNgayKT.setText(String.valueOf(modelKM.getValueAt(i,4)));
                 }
             }
         });
-        
-// Chi Tiết Khuyến Mãi        
-        
-        txMaKMCT = new JTextField();
-        txMaMon = new JTextField();
-        txGG = new JTextField();
-        txTimKiemCTKM = new JTextField();
-        lbMaKMCT = new JLabel("Mã khuyến mãi");
-        lbMaMon = new JLabel("Mã món");
-        lbGG = new JLabel("% giảm giá");
-        lbTimKiemCTKM = new JLabel("Tìm Kiếm");
-        lbTimKiemCTKM.setFont(new Font("Arial", Font.ITALIC, 16));
-        lbTimKiemCTKM.setBounds(900,120,120,20);
-        txTimKiemCTKM.setBounds(980,120,200,20);
-        lbMaKMCT.setBounds(20,30,100,20);
-        txMaKMCT.setBounds(120,30,150,20);
-        lbMaMon.setBounds(300,30,100,20);
-        txMaMon.setBounds(380,30,150,20);
-        lbGG.setBounds(220,70,100,20);
-        txGG.setBounds(300,70,150,20);
-        pCTKM.add(lbMaKMCT);
-        pCTKM.add(txMaKMCT);
-        pCTKM.add(lbMaMon);
-        pCTKM.add(txMaMon);
-        pCTKM.add(lbGG);
-        pCTKM.add(txGG);
-        pBG.add(lbTimKiemCTKM);
-        pBG.add(txTimKiemCTKM);
-        
-        btXoaCT = new JButton("Xóa");
-        btXoaCT.setBorder(BorderFactory.createEmptyBorder());
-        btXoaCT.setBackground(Color.BLUE);
-        btXoaCT.setForeground(Color.WHITE);
-        btCapNhatCT = new JButton("Cập nhật");
-        btCapNhatCT.setBorder(BorderFactory.createEmptyBorder());
-        btCapNhatCT.setBackground(Color.BLUE);
-        btCapNhatCT.setForeground(Color.WHITE);
-        btThemCT = new JButton("Thêm");
-        btThemCT.setBorder(BorderFactory.createEmptyBorder());
-        btThemCT.setBackground(Color.BLUE);
-        btThemCT.setForeground(Color.WHITE);
-        btThemCT.setBounds(570,30,100,20);
-        btCapNhatCT.setBounds(700,30,100,20);
-        btXoaCT.setBounds(630,70,100,20);
-        pCTKM.add(btThemCT);
-        pCTKM.add(btCapNhatCT);
-        pCTKM.add(btXoaCT);
-        pBG.add(pCTKM);
-
-        modelCTKM = new DefaultTableModel();
-        tblCTKM = new JTable();
-        JScrollPane jcCTKM = new JScrollPane();
-        jcCTKM.setViewportView(tblCTKM);
-        modelCTKM.addColumn("Mã khuyến mãi");
-        modelCTKM.addColumn("Mã món");
-        modelCTKM.addColumn("% giảm giá");
-        jcCTKM.setBounds(900,160,305,500);
-        pBG.add(jcCTKM);
-        if(GetData.dskmct == null){
-            data.LoadCTKM();
-        }
-        for(ChiTietCTKM kmct: GetData.dskmct){
-            modelCTKM.addRow(new String[] {kmct.getMaKM(), kmct.getMaMon(), String.valueOf(kmct.getGG())});
-        }        
-        tblCTKM.setModel(modelCTKM);
-        
-        frame.add(pBG);
-        
-        txTimKiemCTKM.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void removeUpdate(DocumentEvent ex){
-                SearchMaKM();
-            }
-            
-            @Override
-            public void insertUpdate(DocumentEvent ex){
-                SearchMaKM();
-            }
-            
-            @Override
-            public void changedUpdate(DocumentEvent ex){
-                SearchMaKM();
-            }
-            
-            public void SearchMaKM(){
-                try{
-                    modelCTKM.setRowCount(0);
-                    if(txTimKiemCTKM.getText().isEmpty()){
-                        tblCTKM.setModel(modelCTKM);
-                    }
-                    String km = txTimKiemCTKM.getText().toLowerCase();
-                    for(ChiTietCTKM a: GetData.dskmct){
-                        if(a.getMaKM().toLowerCase().contains(km)){
-                            modelCTKM.addRow(new String[] {a.getMaKM(), a.getMaMon(), String.valueOf(a.getGG())});
-                            tblCTKM.setModel(modelCTKM);
-                        }
-                    }  
-                }catch(Exception E){
-                }
-            }
-        });
-        
-        tblCTKM.addMouseListener(new MouseAdapter() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               int i = tblCTKM.getSelectedRow();
-               if(i >= 0){
-                    txMaKMCT.setEditable(false);
-                    txMaMon.setEditable(false);
-                    txMaKMCT.setText(String.valueOf(modelCTKM.getValueAt(i,0)));
-                    txMaMon.setText(String.valueOf(modelCTKM.getValueAt(i,1)));
-                    txGG.setText(String.valueOf(modelCTKM.getValueAt(i,2)));
-               }
-           }
-        });
-        
-        btXoaCT.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int i = tblCTKM.getSelectedRow();
-                if(i >= 0)
-                {
-                    int result = JOptionPane.showConfirmDialog(frame,"Bạn có chắc muốn xóa thông tin này ?", "Thông báo",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if(result == JOptionPane.YES_OPTION)
-                    {
-                        if(data.DeleteCTKM((String) tblCTKM.getValueAt(i, 0), (String) tblCTKM.getValueAt(i, 1))){
-                            modelCTKM.removeRow(i);
-                            tblCTKM.setModel(modelCTKM);
-                            JOptionPane.showMessageDialog(frame, "Xóa thành công !!!");
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(frame, "Error", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    else if(result == JOptionPane.NO_OPTION)
-                    {
-                        JOptionPane.showMessageDialog(frame, "Không xóa thông tin");
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(frame,"Không tìm thấy dữ liệu cần xóa !!!","Thông báo",JOptionPane.ERROR_MESSAGE);
-                    txMaKM.requestFocus();
-                }
-            }
-        });
-        btCapNhatCT.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int i = tblCTKM.getSelectedRow();
-                if(i >= 0)
-                {
-                    int result = JOptionPane.showConfirmDialog(frame,"Bạn có chắc muốn cập nhật thông tin này ?", "Thông báo",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if(result == JOptionPane.YES_OPTION){
-                        ChiTietCTKM ctkm = new ChiTietCTKM();
-                        ctkm.setMaKM(txMaKMCT.getText());
-                        ctkm.setMaMon(txMaMon.getText());
-                        ctkm.setGG(Double.parseDouble(txGG.getText()));
-                        if(data.UpdateCTKM(ctkm, (String) tblCTKM.getValueAt(i, 0), (String) tblCTKM.getValueAt(i, 1))){
-                            ChiTietCTKM old = GetData.dskmct.set(i,ctkm);
-                            modelCTKM.setValueAt(ctkm.getMaKM(),i,0);
-                            modelCTKM.setValueAt(ctkm.getMaMon(),i,1);
-                            modelCTKM.setValueAt(ctkm.getGG(),i,2);
-                            tblCTKM.setModel(modelCTKM);
-                            txMaKMCT.setText("");
-                            txMaMon.setText("");
-                            txGG.setText("");
-                            txMaKMCT.requestFocus();
-                            txMaKMCT.setEditable(true);
-                        }
-                    }
-                }
-            }
-        });
-        btThemCT.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!txMaKMCT.getText().equals("")){
-                    if(!txMaMon.getText().equals("")){
-                        if(!txGG.getText().equals("")){
-                            ChiTietCTKM ctkm = new ChiTietCTKM();
-                            ctkm.setMaKM(txMaKMCT.getText());
-                            ctkm.setMaMon(txMaMon.getText());
-                            ctkm.setGG(Double.parseDouble(txGG.getText()));
-                            if(data.InsertCTKM(ctkm)){
-                                modelCTKM.addRow(new String[] {ctkm.getMaKM(), ctkm.getMaMon(), String.valueOf(ctkm.getGG())});
-                                JOptionPane.showMessageDialog(frame, "Thêm thành công chi tiết !", "Thông báo", JOptionPane.PLAIN_MESSAGE);
-                                txMaKMCT.setText("");
-                                txMaMon.setText("");
-                                txGG.setText("");
-                                txMaKMCT.requestFocus();
-                            }
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(frame,"Không được để trống % !","Thông báo",JOptionPane.ERROR_MESSAGE);
-                            txGG.requestFocus();
-                        }
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(frame,"Không được để trống mã món ăn !","Thông báo",JOptionPane.ERROR_MESSAGE);
-                        txMaMon.requestFocus();
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(frame,"Không được để trống mã khuyến mãi !","Thông báo",JOptionPane.ERROR_MESSAGE);
-                    txMaKMCT.requestFocus();
-                }
-            }
-        });
-        
         
         txMaKM.addKeyListener(new KeyAdapter() {
             @Override
@@ -563,6 +356,14 @@ public class DS_CTKM {
             }
         });
         txTenCT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    txGG.requestFocus();
+                }
+            }
+        });
+        txGG.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){

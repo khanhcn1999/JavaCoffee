@@ -1,38 +1,52 @@
 package DTO;
 
-
 public class ChuongTrinhKhuyenMai {
     private String MaKM;
     private String TenCT;
+    private Double GG;
     private String NgayBD;
     private String NgayKT;
-    public ChuongTrinhKhuyenMai()
-    {
-    }
-    public void setMaKM(String mkm){
-        this.MaKM = mkm;
+    public ChuongTrinhKhuyenMai() {
     }
 
     public String getMaKM() {
-        return this.MaKM;
+        return MaKM;
     }
-    public void setTenCT(String tct){
-        this.TenCT = tct;
+
+    public void setMaKM(String MaKM) {
+        this.MaKM = MaKM;
     }
 
     public String getTenCT() {
-        return this.TenCT;
+        return TenCT;
     }
-    public void setNgayBD(String ngaybd){
-        this.NgayBD = ngaybd;
+
+    public void setTenCT(String TenCT) {
+        this.TenCT = TenCT;
     }
-    public String getNgayBD(){
-        return this.NgayBD;
+
+    public Double getGG() {
+        return GG;
     }
-    public void setNgayKT(String ngaykt){
-        this.NgayKT = ngaykt;
+
+    public void setGG(Double GG) {
+        this.GG = GG;
     }
-    public String getNgayKT(){
-        return this.NgayKT;
+
+    public String getNgayBD() {
+        return NgayBD;
     }
+
+    public void setNgayBD(String NgayBD) {
+        this.NgayBD = NgayBD;
+    }
+
+    public String getNgayKT() {
+        return NgayKT;
+    }
+
+    public void setNgayKT(String NgayKT) {
+        this.NgayKT = NgayKT;
+    }
+    
 }

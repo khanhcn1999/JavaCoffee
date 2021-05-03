@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Query {
     private String tableHD = "hoadon";
     private String tableKM = "khuyenmai";
-    private String tableCTKM = "chitietchuongtrinh";
     private String tableCTHD = "chitiethoadon";
     private String tableSP = "sanpham";
     private String tableCTSP = "chitietsanpham";
@@ -101,13 +100,14 @@ public class Query {
     
 //Chuong Trinh Khuyen Mai
     public boolean InsertKM(ChuongTrinhKhuyenMai ctkm){
-        String query = "Insert into " + tableKM + " (MaKM, TenCT, NgayBD, NgayKT) values(?, ?, ?, ?)";
+        String query = "Insert into " + tableKM + " (MaKM, TenCT, GG, NgayBD, NgayKT) values(?, ?, ?, ?, ?)";
         try{    
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, ctkm.getMaKM());
             st.setString(2, ctkm.getTenCT());
-            st.setString(3, ctkm.getNgayBD());
-            st.setString(4, ctkm.getNgayKT());
+            st.setDouble(3, ctkm.getGG());
+            st.setString(4, ctkm.getNgayBD());
+            st.setString(5, ctkm.getNgayKT());
             return st.executeUpdate()>0;
         }catch(SQLException ex){  
             System.err.println(ex);
@@ -126,13 +126,14 @@ public class Query {
         return false;
     }
     public boolean UpdateKM(ChuongTrinhKhuyenMai ctkm, String a){
-        String query = "update " + tableKM + " set TenCT = ?, NgayBD = ?, NgayKT = ? where MaKM = ?";
+        String query = "update " + tableKM + " set TenCT = ?, GG = ?, NgayBD = ?, NgayKT = ? where MaKM = ?";
         try{
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, ctkm.getTenCT());
-            st.setString(2, ctkm.getNgayBD());
-            st.setString(3, ctkm.getNgayKT());
-            st.setString(4, ctkm.getMaKM());
+            st.setDouble(2, ctkm.getGG());
+            st.setString(3, ctkm.getNgayBD());
+            st.setString(4, ctkm.getNgayKT());
+            st.setString(5, ctkm.getMaKM());
             return st.executeUpdate()>0; 
         }catch(SQLException ex){
             System.err.println(ex);
@@ -149,8 +150,9 @@ public class Query {
                 ChuongTrinhKhuyenMai ctkm = new ChuongTrinhKhuyenMai();
                 ctkm.setMaKM(rs.getString(1));
                 ctkm.setTenCT(rs.getString(2));
-                ctkm.setNgayBD(rs.getString(3));
-                ctkm.setNgayKT(rs.getString(4));
+                ctkm.setGG(rs.getDouble(3));
+                ctkm.setNgayBD(rs.getString(4));
+                ctkm.setNgayKT(rs.getString(5));
                 dsctkm.add(ctkm);
             }
         }catch(SQLException e){
@@ -158,68 +160,6 @@ public class Query {
         }  
         return dsctkm;
     }
-    
-// Chi Tiet Khuyen Mai
-    public ArrayList LoadCTKM(){
-        ArrayList dskmct = new ArrayList<ChiTietCTKM>();
-        try{
-            String sql = "Select * from " + tableCTKM;
-            PreparedStatement st = con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                ChiTietCTKM kmct = new ChiTietCTKM();
-                kmct.setMaKM(rs.getString(1));
-                kmct.setMaMon(rs.getString(2));
-                kmct.setGG(rs.getDouble(3));
-                dskmct.add(kmct);
-            }
-            return dskmct;
-        }catch(SQLException e){
-            System.err.println("Error");
-        }  
-        return null;
-    }
-    public boolean DeleteCTKM(String a, String b){
-        String query = "delete from " + tableCTKM + " where MaKM = ? and MaMon = ?";
-        try{
-            PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, a);
-            st.setString(2, b);
-            return st.executeUpdate()>0; 
-        }catch(SQLException ex){
-            System.err.println(ex);
-        }
-        return false;
-    }
-    public boolean UpdateCTKM(ChiTietCTKM ctkm, String a, String b){
-        String query = "update " + tableCTKM + " set %GG = ? where MaKM = ? and MaMon = ?";
-        try{
-            PreparedStatement st = con.prepareStatement(query);
-            st.setDouble(1, ctkm.getGG());
-            st.setString(2, ctkm.getMaKM());
-            st.setString(3, ctkm.getMaMon());
-            return st.executeUpdate()>0; 
-        }catch(SQLException ex){
-            System.err.println(ex);
-        }
-        return false;
-    }
-    public boolean InsertCTKM(ChiTietCTKM ctkm){
-        String query = "Insert into " + tableKM + " (MaKM, MaMon, GG) values(?, ?, ?)";
-        try{    
-            PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, ctkm.getMaKM());
-            st.setString(2, ctkm.getMaMon());
-            st.setDouble(3, ctkm.getGG());
-            return st.executeUpdate()>0;
-        }catch(SQLException ex){  
-            System.err.println(ex);
-        } 
-        return false;
-    }
-    
-    
-    
     
 // Chi Tiet Hoa Don
     public ArrayList LoadCTHD(){

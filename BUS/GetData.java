@@ -9,7 +9,6 @@ public class GetData {
     public static ArrayList<HoaDon> dshd;
     public static ArrayList<ChuongTrinhKhuyenMai> dsctkm;
     public static ArrayList<SanPham> dssp;
-    public static ArrayList<ChiTietCTKM> dskmct;
     public static ArrayList<ChiTietHD> dscthd;
     public static ArrayList<ChiTietSP> dsctsp;
     public GetData(){
@@ -30,10 +29,16 @@ public class GetData {
         return false;
     }
     public boolean DeleteHD(String hd){
-        return data.DeleteHD(hd);          
+        if(data.DeleteHD(hd)){ 
+            return true;
+        } 
+        return false;         
     }
     public boolean UpdateHD(HoaDon hd, String a){
-        return data.UpdateHD(hd, a);
+        if(data.UpdateHD(hd, a)){ 
+            return true;
+        } 
+        return false; 
     }
     
 //Chuong Trinh Khuyen Mai
@@ -51,33 +56,18 @@ public class GetData {
         return false;
     }
     public boolean DeleteKM(String km){
-        return data.DeleteKM(km);          
+        if(data.DeleteKM(km)){ 
+            return true;
+        } 
+        return false;           
     }
     public boolean UpdateKM(ChuongTrinhKhuyenMai ctkm, String a){
-        return data.UpdateKM(ctkm, a);
-    }
-    
-//Chi Tiet Khuyen Mai   
-    public void LoadCTKM(){
-        if(dskmct == null){
-           dskmct = new ArrayList<>();
-        }  
-        dskmct = data.LoadCTKM();
-    }
-    public boolean DeleteCTKM(String maKM,String maMon){
-        return data.DeleteCTKM(maKM, maMon);
-    }
-    public boolean UpdateCTKM(ChiTietCTKM ctkm, String maKM, String maMon){
-        return data.UpdateCTKM(ctkm, maKM, maMon);
-    }
-    public boolean InsertCTKM(ChiTietCTKM ctkm){
-        if(data.InsertCTKM(ctkm)){
-            dskmct.add(ctkm);
+        if(data.UpdateKM(ctkm, a)){ 
             return true;
-        }
-        return false;
+        } 
+        return false; 
     }
-        
+            
 //Chi Tiet Hoa Don
     public void LoadCTHD(){
         if(dscthd == null){
@@ -86,10 +76,16 @@ public class GetData {
         dscthd = data.LoadCTHD();
     }
     public boolean DeleteCTHD(String maKM,String maMon){
-        return data.DeleteCTKM(maKM, maMon);
+        if(data.DeleteCTHD(maKM, maMon)){ 
+            return true;
+        } 
+        return false; 
     }
     public boolean UpdateCTHD(ChiTietHD cthd, String maHD, String maMon){
-        return data.UpdateCTHD(cthd, maHD, maMon);
+        if(data.UpdateCTHD(cthd, maHD, maMon)){ 
+            return true;
+        } 
+        return false; 
     }
     public boolean InsertCTHD(ChiTietHD cthd){
         if(data.InsertCTHD(cthd)){
@@ -114,10 +110,16 @@ public class GetData {
         return false;
     }
     public boolean DeleteSP(String sp){
-        return data.DeleteSP(sp);          
+        if(data.DeleteSP(sp)){ 
+            return true;
+        } 
+        return false;          
     }
     public boolean UpdateSP(SanPham sp, String a){
-        return data.UpdateSP(sp, a);
+        if(data.UpdateSP(sp, a)){ 
+            return true;
+        } 
+        return false; 
     }
     
 
@@ -129,10 +131,16 @@ public class GetData {
         dsctsp = data.LoadCTSP();
     }
     public boolean DeleteCTSP(String maMon,String maNL){
-        return data.DeleteCTSP(maMon, maNL);
+        if(data.DeleteCTSP(maMon, maNL)){ 
+            return true;
+        } 
+        return false; 
     }
     public boolean UpdateCTSP(ChiTietSP ctsp, String maMon, String maNL){
-        return data.UpdateCTSP(ctsp, maMon, maNL);
+        if(data.UpdateCTSP(ctsp, maMon, maNL)){ 
+            return true;
+        } 
+        return false; 
     }
     public boolean InsertCTSP(ChiTietSP ctsp){
         if(data.InsertCTSP(ctsp)){

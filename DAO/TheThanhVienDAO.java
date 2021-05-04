@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import ConnectDB.MySQLConnect;
 
 /**
  *
@@ -25,7 +24,7 @@ public class TheThanhVienDAO {
     Connection connect=null;
     Statement statement=null;
     ResultSet result=null;
-    MySQLConnect conn=new MySQLConnect("caphedb");
+    MySQLConnect conn=new MySQLConnect("coffee");
 
     public TheThanhVienDAO() {
         if(connect==null){
@@ -44,7 +43,12 @@ public class TheThanhVienDAO {
             String sql="select * from thethanhvien";
             result=conn.executeQuery(sql);
             while(result.next()){
-                
+                TheThanhVienDTO tv=new TheThanhVienDTO();
+                tv.setMaTTV(result.getString(1));
+                tv.setTenTV(result.getString(2));
+                tv.setSDT(result.getString(3));
+                tv.setDiemTichLuy(result.getDouble(4));
+                dsttv.add(tv);
             }
         } catch (Exception ex) {
             Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);

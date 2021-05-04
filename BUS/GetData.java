@@ -2,10 +2,13 @@ package BUS;
 
 import DAO.*;
 import java.util.ArrayList;
+
+import javax.management.Query;
+
 import DTO.*;
 
 public class GetData {
-    Query data = new Query();
+    SQLquery data = new SQLquery();
     public static ArrayList<HoaDon> dshd;
     public static ArrayList<ChuongTrinhKhuyenMai> dsctkm;
     public static ArrayList<SanPham> dssp;

@@ -1,8 +1,13 @@
 package GUI;
 
 import javax.swing.*;
+
+import BUS.NhanVienBUS;
+import BUS.TaiKhoanNguoiDungBUS;
+import BUS.TheThanhVienBUS;
+
 import java.awt.*;
-import java.awt.desktop.OpenFilesEvent;
+//import java.awt.desktop.OpenFilesEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -17,13 +22,20 @@ public class Login {
     JTextField txTK;
     JPasswordField txMK;
     JButton btDN, btDK, btX;
-    JLabel lbTK, lbMK, lbB, lbW, lb1, lb2;
+    JLabel lbTK, lbMK, lbB, lbW, lb1, lb2,  lbNoValid;
     JLabel Name1, Name2, Name3, Name4;
     JPanel pLeft, pRight;
-    private String user = "admin";
-    private String pass = "admin";
+//    private String user = "admin";
+//    private String pass = "admin";
+    TaiKhoanNguoiDungBUS bus=new TaiKhoanNguoiDungBUS();
     public Login()
-    {   
+    { 
+    	initComponents();
+    	if(NhanVienBUS.DSNV==null) {
+    		bus.docDSND();
+    	}
+    }	
+    private void initComponents() {
         frame = new JFrame("Login");
         frame.setSize(1000,500);
         frame.setLayout(null);
@@ -99,25 +111,32 @@ public class Login {
         txMK.setForeground(Color.BLACK);
         txMK.setFont(new Font("Arial", Font.ITALIC, 20));
         txMK.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));   
-        lbTK = new JLabel("Tài Khoản");
+        lbTK = new JLabel("Tài khoản");
         lbMK = new JLabel("Mật khẩu");
+        lbNoValid = new JLabel();
         lbTK.setFont(new Font("Arial", Font.ITALIC, 18));
         lbTK.setForeground(Color.BLACK);
         lbMK.setFont(new Font("Arial", Font.ITALIC, 18));
         lbMK.setForeground(Color.BLACK);
+        lbNoValid.setFont(new Font("Arial", Font.ITALIC, 18));
+        lbNoValid.setForeground(Color.red);
         pRight.add(lbTK);
         pRight.add(txTK);
         pRight.add(lbMK);
         pRight.add(txMK);
+        pRight.add(lbNoValid);
         lbTK.setBounds(150,175,100,20);
         txTK.setBounds(250,175,200,20);
         lbMK.setBounds(150,225,100,20);
         txMK.setBounds(250,225,200,20);
-
-        btDN = new JButton("Đăng Nhập");
+        lbNoValid.setBounds(200,260,300,20);
+        
+        btDN = new JButton("Đăng nhập");
         btDN.setBorder(BorderFactory.createEmptyBorder());
-        btDN.setBackground(Color.WHITE);
-        btDN.setBounds(250,280,100,30);
+        btDN.setForeground(Color.BLUE);
+        btDN.setBackground(new Color(155, 207, 243));
+        
+        btDN.setBounds(250,290,110,30);
         pRight.add(btDN);
         
         frame.add(pRight);
@@ -149,22 +168,46 @@ public class Login {
         btDN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(txTK.getText().equals("") || txMK.getText().equals(""))
-                {
-                    JOptionPane.showMessageDialog(frame,"Điền thông tin tài khoản","Thông báo",JOptionPane.ERROR_MESSAGE);
+            	String username, passwd, cfmPasswd;
+                username=txTK.getText();
+                passwd=String.valueOf(txMK.getPassword());
+                if(username.equals("")){
+                    lbNoValid.setText("Vui lòng nhập username!");
                     txTK.requestFocus();
+                    return;
+                } else if(passwd.equals("")) {
+                            lbNoValid.setText("Vui lòng nhập password!");
+                            txMK.requestFocus();
+                            return;
+                		}
+                for(TaiKhoanNguoiDungDTO user : TaiKhoanNguoiDungBUS.DSND){
+                    if(username.equals(String.valueOf(user.getUsername()))) {
+                        if(passwd.equals(user.getPassword())) {
+                        	JOptionPane.showMessageDialog(frame,"Đăng nhập thành công","Thông báo",JOptionPane.PLAIN_MESSAGE);
+                    		new MainFrame();
+                    		frame.hide();
+                    		return;
+                        } else lbNoValid.setText("Mật khẩu không đúng.");
+                    }
                 }
-                else if(!txTK.getText().equals(user) || !txMK.getText().equals(pass))
-                {
-                    JOptionPane.showMessageDialog(frame,"Sai thông tin tài khoản hoặc mật khẩu","Thông báo",JOptionPane.ERROR_MESSAGE);
-                    txTK.requestFocus();
-                }
-                else if(txTK.getText().equals(user) && txMK.getText().equals(pass))
-                {
-                    JOptionPane.showMessageDialog(frame,"Đăng nhập thành công","Thông báo",JOptionPane.PLAIN_MESSAGE);
-                    new MainFrame();
-                    frame.hide();
-                }
+            	JOptionPane.showMessageDialog(frame,"Không tìm thấy tài khoản.","Thông báo",JOptionPane.PLAIN_MESSAGE);
+            	txTK.requestFocus();
+//                if(txTK.getText().equals("") || txMK.getPassword().equals(""))
+//                {
+//                    JOptionPane.showMessageDialog(frame,"Ä�iá»�n thÃ´ng tin tÃ i khoáº£n","Thông báo",JOptionPane.ERROR_MESSAGE);
+//                    txTK.requestFocus();
+//                }
+//                else if(!txTK.getText().equals(user) || !txMK.getText().equals(pass))
+//                {
+//                    JOptionPane.showMessageDialog(frame,"Sai thÃ´ng tin tÃ i khoáº£n hoáº·c máº­t kháº©u","Thông báo",JOptionPane.ERROR_MESSAGE);
+//                    txTK.requestFocus();
+//                }
+//                else if(txTK.getText().equals(user) && txMK.getText().equals(pass))
+//                {
+//                    JOptionPane.showMessageDialog(frame,"Ä�Äƒng nháº­p thÃ nh cÃ´ng","Thông báo",JOptionPane.PLAIN_MESSAGE);
+//                    new MainFrame();
+//                    frame.hide();
+//                }
             }
         });
         
@@ -172,4 +215,7 @@ public class Login {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    public static void main(String[] args){
+        new Login();
+    } 
 }

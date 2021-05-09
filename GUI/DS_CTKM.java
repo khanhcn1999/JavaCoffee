@@ -306,6 +306,7 @@ public class DS_CTKM {
                         ctkm.setNgayBD(txNgayBD.getText());
                         ctkm.setNgayKT(txNgayKT.getText());
                         if(data.UpdateKM(ctkm, (String) tblKM.getValueAt(i, 0))){
+                        	JOptionPane.showMessageDialog(frame,"Cập nhật thành công","Thông báo",JOptionPane.PLAIN_MESSAGE);
                             ChuongTrinhKhuyenMai old = GetData.dsctkm.set(i,ctkm);
                             modelKM.setValueAt(ctkm.getMaKM(),i,0);
                             modelKM.setValueAt(ctkm.getTenCT(),i,1);
@@ -326,10 +327,12 @@ public class DS_CTKM {
             }
         });
         btThoat.addActionListener(new ActionListener() {
-            @Override
+			@Override
             public void actionPerformed(ActionEvent e) {
-                    new MainFrame();
-                    frame.hide();
+            		new MainFrame();
+            		
+            		frame.setVisible(false);
+                    
             }
         });
         tblKM.addMouseListener(new MouseAdapter() {
@@ -343,6 +346,7 @@ public class DS_CTKM {
                     txGG.setText(String.valueOf(modelKM.getValueAt(i,2)));
                     txNgayBD.setText(String.valueOf(modelKM.getValueAt(i,3)));
                     txNgayKT.setText(String.valueOf(modelKM.getValueAt(i,4)));
+                    btThem.setEnabled(false);
                 }
             }
         });

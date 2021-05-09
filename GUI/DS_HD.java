@@ -14,18 +14,20 @@ public class DS_HD {
     JFrame frame = new JFrame();
     DefaultTableModel modelHD, modelCTHD;
     
-    JButton btXoa, btCapNhat, btThem, btThoat;
-    JTextField txMaHD, txMaTV, txMaNV, txMaKM, txNgayLHD, txTongTien, txTongKM, txTongTT, txSearch ;
+    JButton btCapNhat, btThem, btThoat;
+    JTextField txMaHD, txNgayLHD, txTongTien, txTongKM, txTongTT, txSearch ;
     JLabel lbMaHD, lbMaTV, lbMaNV, lbMaKM, lbNgayLHD, lbTongTien, lbTongKM, lbTongTT, lbSearch;
     
     JTextField txMaHDCT, txMaMon, txSoLuong, txDonGia, txTT, txSearchCT;
     JLabel lbMaHDCT, lbMaMon, lbSoLuong, lbDonGia, lbTT, lbSearchCT;
-    JButton btCapNhatCT, btXoaCT, btThemCT; 
+    JButton btCapNhatCT, btXoaCT, btThemCT, btLuu; 
     
-    JComboBox cb;
+    JComboBox cb, cbKM, cbNV, cbKH;
     
     JTable tblHD, tblCTHD;
     JPanel pHD, pCTHD, pBG;
+    
+    String ma;
     
     GetData data = new GetData();
     
@@ -52,10 +54,23 @@ public class DS_HD {
         pBG.setBounds(0,0,1250,700);
         
 // Hóa Đơn        
+        cbKM = new JComboBox();
+        cbKM.addItem("");
+        if(GetData.dsctkm == null){
+            data.LoadKM();
+        }
+        for(ChuongTrinhKhuyenMai ctkm: GetData.dsctkm) {
+        	cbKM.addItem(ctkm.getMaKM());
+        }
+        
+        String nv[] ={"NV1", "NV2", "NV3", "NV4", "NV5"}; 
+        String kh[] ={" ","KH1", "KH2", "KH3", "KH4", "KH5"}; 
+        
+        cbNV = new JComboBox(nv);
+        
+        cbKH = new JComboBox(kh);
+        
         txMaHD = new JTextField();
-        txMaTV = new JTextField();
-        txMaNV = new JTextField();
-        txMaKM = new JTextField();
         txNgayLHD = new JTextField();
         txTongTien = new JTextField();
         txTongKM = new JTextField();
@@ -76,11 +91,11 @@ public class DS_HD {
         lbMaHD.setBounds(140,20,100,20);
         txMaHD.setBounds(240,20,100,20);
         lbMaNV.setBounds(350,20,100,20);
-        txMaNV.setBounds(450,20,100,20);
+        cbNV.setBounds(450,20,100,20);
         lbMaTV.setBounds(560,20,100,20);
-        txMaTV.setBounds(660,20,100,20);
+        cbKH.setBounds(660,20,100,20);
         lbMaKM.setBounds(770,20,100,20);
-        txMaKM.setBounds(870,20,100,20);
+        cbKM.setBounds(870,20,100,20);
         lbNgayLHD.setBounds(140,60,100,20);
         txNgayLHD.setBounds(240,60,100,20);
         lbTongTien.setBounds(350,60,100,20);
@@ -92,11 +107,11 @@ public class DS_HD {
         pHD.add(lbMaHD);
         pHD.add(txMaHD);
         pHD.add(lbMaTV);
-        pHD.add(txMaTV);
+        pHD.add(cbKH);
         pHD.add(lbMaNV);
-        pHD.add(txMaNV);
+        pHD.add(cbNV);
         pHD.add(lbMaKM);
-        pHD.add(txMaKM);
+        pHD.add(cbKM);
         pHD.add(lbNgayLHD);
         pHD.add(txNgayLHD);       
         pHD.add(lbTongTien);
@@ -135,10 +150,6 @@ public class DS_HD {
         }        
         tblHD.setModel(modelHD);
         
-        btXoa = new JButton("Xóa");
-        btXoa.setBorder(BorderFactory.createEmptyBorder());
-        btXoa.setBackground(Color.BLUE);
-        btXoa.setForeground(Color.WHITE);
         btCapNhat = new JButton("Cập nhật");
         btCapNhat.setBorder(BorderFactory.createEmptyBorder());
         btCapNhat.setBackground(Color.BLUE);
@@ -147,17 +158,15 @@ public class DS_HD {
         btThem.setBorder(BorderFactory.createEmptyBorder());
         btThem.setBackground(Color.BLUE);
         btThem.setForeground(Color.WHITE);
-        btThoat = new JButton("<");
+        btThoat = new JButton("<-");
         btThoat.setBorder(BorderFactory.createEmptyBorder());
         btThoat.setBackground(Color.BLUE);
         btThoat.setForeground(Color.WHITE);
         btThem.setBounds(980,20,100,20);
         btCapNhat.setBounds(1100,20,100,20);
-        btXoa.setBounds(1040,60,100,20);
         btThoat.setBounds(20,20,20,20);
         pHD.add(btThem);
         pHD.add(btCapNhat);
-        pHD.add(btXoa);
         pHD.add(btThoat);
         pBG.add(pHD);
         
@@ -165,26 +174,30 @@ public class DS_HD {
            @Override
            public void actionPerformed(ActionEvent e){
                if(!txMaHD.getText().equals("")){
-                   if(!txMaNV.getText().equals("")){
+                   if(!cbNV.getSelectedItem().equals("")) {
                        if(!txNgayLHD.getText().equals("")){
                            if(!txTongTien.getText().equals("")){
                                 HoaDon hd = new HoaDon();
                                 hd.setMaHD(txMaHD.getText());
-                                hd.setMaNV(txMaNV.getText());
-                                hd.setMaTV(txMaTV.getText());
-                                hd.setMaKM(txMaKM.getText());
+                                hd.setMaNV(String.valueOf(cbNV.getSelectedItem()));
+                                hd.setMaTV(String.valueOf(cbKH.getSelectedItem()));
+                                hd.setMaKM(String.valueOf(cbKM.getSelectedItem()));
                                 hd.setNgayLHD(txNgayLHD.getText());
                                 hd.setTongTien(Double.parseDouble(txTongTien.getText()));
-                                hd.setTongKM(Double.parseDouble(txTongKM.getText()));
-                                hd.setTongTT(Double.parseDouble(txTongTien.getText()) - Double.parseDouble(txTongKM.getText()));
+                                for(ChuongTrinhKhuyenMai ctkm: GetData.dsctkm) {
+                                	if(hd.getMaKM() == ctkm.getMaKM()) {
+                                		hd.setTongKM((hd.getTongTien() * ctkm.getGG()) / 100);
+                                	}
+                                }
+                                hd.setTongTT(hd.getTongTien() - hd.getTongKM());
                                 if(data.InsertHD(hd)){
                                     modelHD.addRow(new String[] {hd.getMaHD(), hd.getMaNV(), hd.getMaTV(), hd.getMaKM(), hd.getNgayLHD(), String.valueOf(hd.getTongTien()), String.valueOf(hd.getTongKM()), String.valueOf(hd.getTongTT())});
                                     JOptionPane.showMessageDialog(frame,"Thêm thành công hóa đơn !", "Thông báo", JOptionPane.PLAIN_MESSAGE);
                                     tblHD.setModel(modelHD);
                                     txMaHD.setText("");
-                                    txMaNV.setText("");
-                                    txMaTV.setText("");
-                                    txMaKM.setText("");
+                                    cbNV.setSelectedItem(1);
+                                    cbKH.setSelectedItem(1);
+                                    cbKM.setSelectedItem(1);
                                     txNgayLHD.setText("");
                                     txTongTien.setText("");
                                     txTongKM.setText("");
@@ -207,7 +220,7 @@ public class DS_HD {
                    }
                    else{
                        JOptionPane.showMessageDialog(frame,"Phải điền mã nhân viên","Thông báo",JOptionPane.ERROR_MESSAGE);
-                       txMaNV.requestFocus();
+                       cbNV.requestFocus();
                    }
                }
                else{
@@ -216,44 +229,6 @@ public class DS_HD {
                }
            }
         }); 
-        
-        btXoa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int i = tblHD.getSelectedRow();
-                if(i >= 0)
-                {
-                    int result = JOptionPane.showConfirmDialog(frame,"Bạn có chắc muốn xóa thông tin này ?", "Thông báo",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if(result == JOptionPane.YES_OPTION)
-                    {
-                        if(data.DeleteHD((String) tblHD.getValueAt(i, 0))){ 
-                            modelHD.removeRow(i);
-                            tblHD.setModel(modelHD);
-                            JOptionPane.showMessageDialog(frame, "Xóa thành công !!!");
-                            txMaHD.setText("");
-                            txMaNV.setText("");
-                            txMaTV.setText("");
-                            txMaKM.setText("");
-                            txNgayLHD.setText("");
-                            txTongTien.setText("");
-                            txTongKM.setText("");
-                            txTongTT.setText("");
-                            txMaHD.requestFocus();
-                            txMaHD.setEditable(true);
-                        }else{
-                            JOptionPane.showMessageDialog(frame, "Error", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                        } 
-                    }
-                    else if(result == JOptionPane.NO_OPTION)
-                    {
-                        JOptionPane.showMessageDialog(frame, "Không xóa thông tin");
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(frame,"Không tìm thấy dữ liệu cần xóa !!!","Thông báo",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
         
         btCapNhat.addActionListener(new ActionListener() {
            @Override
@@ -265,13 +240,17 @@ public class DS_HD {
                    if(result == JOptionPane.YES_OPTION){
                         HoaDon hd = new HoaDon();
                         hd.setMaHD(txMaHD.getText());
-                        hd.setMaNV(txMaNV.getText());
-                        hd.setMaTV(txMaTV.getText());
-                        hd.setMaKM(txMaKM.getText());
+                        hd.setMaNV(String.valueOf(cbNV.getSelectedItem()));
+                        hd.setMaTV(String.valueOf(cbKH.getSelectedItem()));
+                        hd.setMaKM(String.valueOf(cbKM.getSelectedItem()));
                         hd.setNgayLHD(txNgayLHD.getText());
                         hd.setTongTien(Double.parseDouble(txTongTien.getText()));
-                        hd.setTongKM(Double.parseDouble(txTongKM.getText()));
-                        hd.setTongTT(Double.parseDouble(txTongTien.getText()) - Double.parseDouble(txTongKM.getText()));
+                        for(ChuongTrinhKhuyenMai ctkm: GetData.dsctkm) {
+                        	if(hd.getMaKM() == ctkm.getMaKM()) {
+                        		hd.setTongKM((hd.getTongTien() * ctkm.getGG()) / 100);
+                        	}
+                        }
+                        hd.setTongTT(hd.getTongTien() - hd.getTongKM());
                         if(data.UpdateHD(hd, (String) tblHD.getValueAt(i, 0))){
                             HoaDon old = GetData.dshd.set(i,hd);
                             modelHD.setValueAt(hd.getMaHD(),i,0);
@@ -285,9 +264,9 @@ public class DS_HD {
                             tblHD.setModel(modelHD);
                             JOptionPane.showMessageDialog(frame, "Cập nhật thành công", "Thông báo", JOptionPane.PLAIN_MESSAGE);
                             txMaHD.setText("");
-                            txMaNV.setText("");
-                            txMaTV.setText("");
-                            txMaKM.setText("");
+                            cbNV.setSelectedItem(1);
+                            cbKH.setSelectedItem(1);
+                            cbKM.setSelectedItem(1);
                             txNgayLHD.setText("");
                             txTongTien.setText("");
                             txTongKM.setText("");
@@ -315,15 +294,14 @@ public class DS_HD {
                 int i = tblHD.getSelectedRow();
                 if (i >= 0){
                     txMaHD.setText(String.valueOf(modelHD.getValueAt(i,0)));
-                    txMaNV.setText(String.valueOf(modelHD.getValueAt(i,1)));
-                    txMaTV.setText(String.valueOf(modelHD.getValueAt(i,2)));
-                    txMaKM.setText(String.valueOf(modelHD.getValueAt(i,3)));
+                    cbNV.setSelectedItem(String.valueOf(modelHD.getValueAt(i,1)));
+                    cbKH.setSelectedItem(String.valueOf(modelHD.getValueAt(i,2)));
+                    cbKM.setSelectedItem(String.valueOf(modelHD.getValueAt(i,3)));
                     txNgayLHD.setText(String.valueOf(modelHD.getValueAt(i,4)));
                     txTongTien.setText(String.valueOf(modelHD.getValueAt(i,5)));
                     txTongKM.setText(String.valueOf(modelHD.getValueAt(i,6)));
                     txTongTT.setText(String.valueOf(modelHD.getValueAt(i,7)));
                     txMaHD.setEditable(false);
-                    
                     try{
                         modelCTHD.setRowCount(0);
                         String MaHD = String.valueOf(modelHD.getValueAt(i,0));
@@ -342,66 +320,18 @@ public class DS_HD {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txMaNV.requestFocus();
-                }
-            }
-        });
-        txMaNV.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txMaTV.requestFocus();
-                }
-            }
-        });
-        txMaTV.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txMaKM.requestFocus();
-                }
-            }
-        });
-        txMaKM.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     txNgayLHD.requestFocus();
                 }
             }
-        }); 
+        });
         txNgayLHD.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txTongTien.requestFocus();
-                }
-            }
-        }); 
-        txTongTien.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txTongKM.requestFocus();
-                }
-            }
-        });
-        txTongKM.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    txTongTT.requestFocus();
-                }
-            }
-        });
-        txTongTT.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     btThem.doClick();
                 }
             }
-        });       
+        }); 
         
 // Chi Tiết Hóa Đơn        
         
@@ -455,12 +385,18 @@ public class DS_HD {
         btThemCT.setBorder(BorderFactory.createEmptyBorder());
         btThemCT.setBackground(Color.BLUE);
         btThemCT.setForeground(Color.WHITE);
+        btLuu = new JButton("Lưu");
+        btLuu.setBorder(BorderFactory.createEmptyBorder());
+        btLuu.setBackground(Color.BLUE);
+        btLuu.setForeground(Color.WHITE);
         btThemCT.setBounds(570,30,100,20);
         btCapNhatCT.setBounds(700,30,100,20);
-        btXoaCT.setBounds(630,70,100,20);
+        btXoaCT.setBounds(570,70,100,20);
+        btLuu.setBounds(700,70,100,20);
         pCTHD.add(btThemCT);
         pCTHD.add(btCapNhatCT);
         pCTHD.add(btXoaCT);
+        pCTHD.add(btLuu);
         pBG.add(pCTHD);
 
         modelCTHD = new DefaultTableModel();
@@ -632,7 +568,24 @@ public class DS_HD {
                 }
             }
         });
-        
+        btLuu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	txMaHDCT.setEditable(true);
+            	Double Tong = 0.0;
+            	if(GetData.dscthd == null) {
+            		data.LoadCTHD();
+            	}
+            	ma = txMaHDCT.getText();
+            	for(ChiTietHD cthd: GetData.dscthd) {
+            		if(ma.equals(cthd.getMaHD())) {
+            			Tong += cthd.getThanhTien();
+            		}
+            	}
+            	txMaHD.setText(ma);
+            	txTongTien.setText(String.valueOf(Tong));
+            }
+        });
         
         btThemCT.addActionListener(new ActionListener() {
            @Override
@@ -647,17 +600,16 @@ public class DS_HD {
                                cthd.setSoLuong(Double.parseDouble(txSoLuong.getText()));
                                cthd.setDonGia(Double.parseDouble(txDonGia.getText()));
                                cthd.setThanhTien(Double.parseDouble(txSoLuong.getText()) * Double.parseDouble(txDonGia.getText()));
-                               if(data.InsertCTHD(cthd)){
-                                    modelCTHD.addRow(new String[] {cthd.getMaHD(), cthd.getMaMon(), String.valueOf(cthd.getSoLuong()), String.valueOf(cthd.getDonGia()), String.valueOf(cthd.getThanhTien())});
-                                    JOptionPane.showMessageDialog(frame,"Thêm thành công chi tiết hóa đơn !", "Thông báo", JOptionPane.PLAIN_MESSAGE);
-                                    tblCTHD.setModel(modelCTHD);
-                                    txMaHDCT.setText("");
-                                    txMaMon.setText("");
-                                    txSoLuong.setText("");
-                                    txDonGia.setText("");
-                                    txTT.setText("");
-                                    txMaHDCT.requestFocus();
-                                }
+                               if(data.InsertCTHD(cthd)) {
+	                               modelCTHD.addRow(new String[] {cthd.getMaHD(), cthd.getMaMon(), String.valueOf(cthd.getSoLuong()), String.valueOf(cthd.getDonGia()), String.valueOf(cthd.getThanhTien())});
+	                               tblCTHD.setModel(modelCTHD);
+	                               txMaHDCT.setText(cthd.getMaHD());
+	                               txMaMon.setText("");
+	                               txSoLuong.setText("");
+	                               txDonGia.setText("");
+	                               txTT.setText("");
+                               }
+                                
                            }
                            else{
                                 JOptionPane.showConfirmDialog(frame,"Không được để đơn giá !", "Thông báo",JOptionPane.ERROR_MESSAGE);
@@ -686,7 +638,7 @@ public class DS_HD {
                    if(result == JOptionPane.YES_OPTION){
                         ChiTietHD cthd = new ChiTietHD();
                         cthd.setMaHD(txMaHD.getText());
-                        cthd.setMaMon(txMaNV.getText());
+                        cthd.setMaMon(txMaMon.getText());
                         cthd.setSoLuong(Double.parseDouble(txSoLuong.getText()));
                         cthd.setDonGia(Double.parseDouble(txDonGia.getText()));
                         cthd.setThanhTien(Double.parseDouble(txSoLuong.getText()) * Double.parseDouble(txDonGia.getText()));
@@ -765,20 +717,71 @@ public class DS_HD {
                     txSoLuong.setText(String.valueOf(modelCTHD.getValueAt(i,2)));
                     txDonGia.setText(String.valueOf(modelCTHD.getValueAt(i,3)));
                     txTT.setText(String.valueOf(modelCTHD.getValueAt(i,4)));      
-                    txMaHDCT.setEditable(false);
-                    txMaMon.setEditable(false);
+                }
+            }
+        });
+        
+        txMaHDCT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    txMaMon.requestFocus();
+                }
+            }
+        });
+        txMaMon.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    txSoLuong.requestFocus();
+                }
+            }
+        });
+        txSoLuong.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    txDonGia.requestFocus();
+                }
+            }
+        });
+        txDonGia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    btThemCT.doClick();
+                    txMaMon.requestFocus();
                 }
             }
         });
         
         btThoat.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {             
-                    new MainFrame();
-                    frame.hide();
+            @SuppressWarnings("deprecation")
+			@Override
+            public void actionPerformed(ActionEvent e) {
+            		new MainFrame();
+            		frame.setVisible(false);
+                    
             }
         });
-
+        
+        pBG.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		tblCTHD.setModel(modelCTHD);
+        		
+        		txMaHD.setText("");
+                cbNV.setSelectedItem(1);
+                cbKH.setSelectedItem(1);
+                cbKM.setSelectedItem(1);
+                txNgayLHD.setText("");
+                txTongTien.setText("");
+                txTongKM.setText("");
+                txTongTT.setText("");
+                txMaHD.requestFocus();
+        	}
+        });
+       
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }

@@ -51,7 +51,7 @@ public class MainFrame {
         btKM.setBackground(new Color(155, 207, 243));
         btKM.setFont(new Font("Arial", Font.ITALIC, 14));
         btKM.setForeground(Color.BLUE);
-        
+      
         btNV = new JButton("Nhân viên");
         btNV.setBorder(BorderFactory.createEmptyBorder());
         btNV.setBackground(new Color(155, 207, 243));
@@ -119,78 +119,64 @@ public class MainFrame {
         btHD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_HD();
-                frame.hide();
             }
         });
         btKM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_CTKM();
-                frame.hide();
             }
         });
         btNV.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_NV();
-                frame.hide();
             }
         });
         btKH.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_TTV();
-                frame.hide();
             }
         });
         btSP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_SP();
-                frame.hide();
-            }
-        });
-        btNV.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                new DS_NV();
-                frame.hide();
             }
         });
         btNCC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_NCC();
-                frame.hide();
             }
         });
         btPNH.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_PNH();
-                frame.hide();
-            }
-        });
-        btKH.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                new DS_TTV();
-                frame.hide();
             }
         });
         btNL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_NL();
-                frame.hide();
             }
         });
         btL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                frame.setVisible(false);
                 new DS_L();
-                frame.hide();
             }
         });
         
@@ -199,8 +185,8 @@ public class MainFrame {
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(frame,"Bạn có chắc muốn đăng xuất ?","Thông báo",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION) {
+                    frame.setVisible(false);
                     new Login();
-                    frame.hide();
                 }
             }
         });

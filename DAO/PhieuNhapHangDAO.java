@@ -1,4 +1,6 @@
 package DAO;
+
+
 import  DTO.PhieuNhapHangDTO;
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,8 +58,8 @@ public class PhieuNhapHangDAO {
 		return false;	
 	}
 	public boolean insert(PhieuNhapHangDTO pnh) {
-		PreparedStatement pts = null;
 		String sqlCommand = "insert into phieunhaphang values (?,?,?,?,?)";
+		 PreparedStatement pts = null;
 		try {
 			pts = connect.prepareStatement(sqlCommand);
 			pts.setString(1,pnh.getMaPhieuNhap());
@@ -65,11 +67,12 @@ public class PhieuNhapHangDAO {
 			pts.setString(3,pnh.getMaNhaCungCap());
 			pts.setString(4,pnh.getNgayNhap());
 			pts.setDouble(5,pnh.getTongCong());
+			return pts.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return false;		
+		return false;			
 	}
 	public boolean update(String MaPhieuNhap,PhieuNhapHangDTO pnh) {
 		String sqlCommand = "Update phieunhaphang set MaNhanVien = ?, MaNhaCungCap = ?, NgayNhap = ?, TongCong = ? where MaNhanVien = ?";

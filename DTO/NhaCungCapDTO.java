@@ -3,15 +3,13 @@ package DTO;
 public class NhaCungCapDTO {
 	private String maNhaCungCap;
 	private String tenNhaCungCap;
-	private String email;
 	private String soDienThoai;
 	private String diaChi;
 	public NhaCungCapDTO() {
 	}
-	public NhaCungCapDTO(String maNhaCungCap,String tenNhaCungCap,String email,String soDienThoai,String diaChi) {
+	public NhaCungCapDTO(String maNhaCungCap,String tenNhaCungCap,String soDienThoai,String diaChi) {
 		this.maNhaCungCap = maNhaCungCap;
 		this.tenNhaCungCap = tenNhaCungCap;
-		this.email = email;
 		this.soDienThoai = soDienThoai ;
 		this.diaChi = diaChi;
 	}
@@ -26,12 +24,6 @@ public class NhaCungCapDTO {
 	}
 	public void setTenNhaCungCap(String tenNhaCungCap) {
 		this.tenNhaCungCap = tenNhaCungCap;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getSoDienThoai() {
 		return soDienThoai;

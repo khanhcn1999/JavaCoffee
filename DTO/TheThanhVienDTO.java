@@ -20,7 +20,12 @@ public class TheThanhVienDTO {
         this.tenTV = tenTV;
         this.SDT = SDT;
     }
-
+    public TheThanhVienDTO(String maTTV, String tenTV, String SDT, double diemTichLuy) {
+        this.maTTV = maTTV;
+        this.tenTV = tenTV;
+        this.SDT = SDT;
+        this.diemTichLuy=diemTichLuy;
+    }
     public String getMaTTV() {
         return maTTV;
     }

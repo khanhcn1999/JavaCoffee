@@ -54,7 +54,6 @@ public class DS_ND extends javax.swing.JFrame {
         Vector<String> header=new Vector<>();
         header.add("Username");
         header.add("Password");
-        header.add("Active");
         model=new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -120,6 +119,18 @@ public class DS_ND extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Nhập password: ");
+
+        txtCrePasswd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCrePasswdActionPerformed(evt);
+            }
+        });
+
+        txtCfmPasswd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCfmPasswdActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Nhập lại password:");
@@ -199,14 +210,12 @@ public class DS_ND extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(21, 21, 21)
                 .addComponent(txtNoValid, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReset)
-                    .addComponent(btnThem))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnReset, btnThem});
 
         jTabbedPane1.addTab("Tạo tài khoản mới", jPanel3);
 
@@ -241,7 +250,7 @@ public class DS_ND extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(196, 196, 196)
@@ -254,8 +263,8 @@ public class DS_ND extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnXoa)
-                .addGap(34, 34, 34))
+                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
 
         jTabbedPane1.addTab("Tất cả tài khoản", jPanel4);
@@ -354,12 +363,40 @@ public class DS_ND extends javax.swing.JFrame {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
-        // TODO add your handling code here:
+        txtUsername.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    txtCrePasswd.requestFocus();
+                }
+            }
+        });
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        // TODO add your handling code here:
+       txtUsername.setText("");
+       txtCrePasswd.setText("");
+       txtCfmPasswd.setText("");
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtCrePasswdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCrePasswdActionPerformed
+        txtCrePasswd.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    txtCfmPasswd.requestFocus();
+                }
+            }
+        });
+    }//GEN-LAST:event_txtCrePasswdActionPerformed
+
+    private void txtCfmPasswdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCfmPasswdActionPerformed
+        txtCfmPasswd.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnThem.doClick();
+                }
+            }
+        });
+    }//GEN-LAST:event_txtCfmPasswdActionPerformed
 
     /**
      * @param args the command line arguments

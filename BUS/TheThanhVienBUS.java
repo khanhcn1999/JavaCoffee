@@ -9,13 +9,14 @@ import DAO.TheThanhVienDAO;
 import DTO.TheThanhVienDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author Dell
  */
 public class TheThanhVienBUS {
-    static ArrayList<TheThanhVienDTO> DSTTV;
+    public static ArrayList<TheThanhVienDTO> DSTTV;
 
     public TheThanhVienBUS() {
     }
@@ -24,33 +25,39 @@ public class TheThanhVienBUS {
         if(DSTTV==null) DSTTV=new ArrayList<TheThanhVienDTO>();
         DSTTV=data.docDSTTV();
     }
-    public void themTTV(TheThanhVienDTO ttv){
+    public boolean themTTV(TheThanhVienDTO ttv){
         TheThanhVienDAO data=new TheThanhVienDAO();
-        data.themTTV(ttv);
-        DSTTV.add(ttv);
+        if(data.themTTV(ttv)){
+            DSTTV.add(ttv);
+            return true;
+        }
+        return false;    
     }
     
-    public void suaTTV(int index, TheThanhVienDTO ttv){
+    public boolean suaTTV(int index, TheThanhVienDTO ttv){
         TheThanhVienDAO data=new TheThanhVienDAO();
-        data.suaTTV(ttv);
-        DSTTV.set(index, ttv);
+        if(data.suaTTV(ttv)){
+            DSTTV.set(index, ttv);
+            return true;
+        }
+        return false;
     }
 
-    public void xoaTTV(int index, String matv){
+    public boolean xoaTTV(int index, String matv){
         TheThanhVienDAO data=new TheThanhVienDAO();
-        data.xoaTTV(matv);
-        DSTTV.remove(index);
+        if(data.xoaTTV(matv)) {
+            DSTTV.remove(index);
+            return true;
+        }
+        return false;
     }
     public ArrayList<TheThanhVienDTO> timkiem(String keyword){
         ArrayList<TheThanhVienDTO> tvList=new ArrayList<>();
-        tvList=null;
         for(TheThanhVienDTO ttv: DSTTV){
-            if(ttv.getMaTTV().contains(keyword) || ttv.getTenTV().contains(keyword))
-            {
-                tvList.add(ttv);
-            }
+        	if(Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(ttv.getTenTV()).find()
+                    || ttv.getMaTTV().contains(keyword)) 
+        		tvList.add(ttv);
         }
-            
         return tvList;
     }
    

@@ -7,8 +7,8 @@ package BUS;
  */
 
 
-import DAO.TaiKhoanDAO;
-import DAO.TaiKhoanDAO;
+import DAO.TaiKhoanNguoiDungDAO;
+import DAO.TaiKhoanNguoiDungDAO;
 import DTO.TaiKhoanNguoiDungDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class TaiKhoanNguoiDungBUS {
     }
     public void docDSND(){
         try {
-            TaiKhoanDAO data=new TaiKhoanDAO();
+            TaiKhoanNguoiDungDAO data=new TaiKhoanNguoiDungDAO();
             if(DSND==null) DSND=new ArrayList<TaiKhoanNguoiDungDTO>();
             DSND=data.docDSND();
         } catch (SQLException ex) {
@@ -36,41 +36,37 @@ public class TaiKhoanNguoiDungBUS {
     }
     public void themND(TaiKhoanNguoiDungDTO user){
         try {
-            TaiKhoanDAO data=new TaiKhoanDAO();
+            TaiKhoanNguoiDungDAO data=new TaiKhoanNguoiDungDAO();
 //            data.addND(user);
             DSND.add(user);
         } catch (SQLException ex) {
             Logger.getLogger(TaiKhoanNguoiDungBUS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public ArrayList<TaiKhoanNguoiDungDTO> timKiem(String keyword){
-        ArrayList<TaiKhoanNguoiDungDTO> userList=new ArrayList<>();
-        userList=null;
-        for(TaiKhoanNguoiDungDTO user: DSND)
-//            if(user.getMaND().contains(keyword) || user.getTenNv().contains(keyword)) 
-//             if(Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(user.getTenNv()).find()
-//                     || user.getMaND().contains(keyword))
-            userList.add(user);
-        return userList;
-    }
-//    public ArrayList<TaiKhoanNguoiDung> timTheoTenND(String ten){
-//        ArrayList<TaiKhoanNguoiDung> userList=new ArrayList<>();
-//        for(TaiKhoanNguoiDungDTO user: DSND){
-//            if(user.getTenNv().contains(ten))
-//                userList.add(user);
+  
+//    public void suaND(TaiKhoanNguoiDungDTO user){
+//        try {
+//            TaiKhoanNguoiDungDAO data=new TaiKhoanNguoiDungDAO();
+////            data.updateND(user);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(TaiKhoanNguoiDungBUS.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-//        return userList;
 //    }
-    public void suaND(TaiKhoanNguoiDungDTO user){
+    public boolean xoaND(int index, String username){
         try {
-            TaiKhoanDAO data=new TaiKhoanDAO();
-//            data.updateND(user);
+            TaiKhoanNguoiDungDAO data=new TaiKhoanNguoiDungDAO();
+            if(data.delete(username)) {
+                DSND.remove(index);
+                return true;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(TaiKhoanNguoiDungBUS.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        return false;
+    }     
+}
 
    
    
     
-}
+

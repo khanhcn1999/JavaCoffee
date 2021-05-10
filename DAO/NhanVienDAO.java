@@ -1,11 +1,26 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DAO;
-import java.sql.*;
+
+import DTO.NhanVienDTO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import ConnectDB.MySQLConnect;
-import DTO.NhanVien;
+
+/**
+ *
+ * @author Dell
+ */
 public class NhanVienDAO {
 
     Connection connect=null;
@@ -24,12 +39,12 @@ public class NhanVienDAO {
         }
     }
     public ArrayList docDSNV(){
-        ArrayList<NhanVien> dsnv=new ArrayList<NhanVien>();
+        ArrayList<NhanVienDTO> dsnv=new ArrayList<NhanVienDTO>();
         try {
             String sql="select * from nhanvien";
             result=conn.executeQuery(sql);
             while(result.next()){
-                NhanVien nv=new NhanVien();
+                NhanVienDTO nv=new NhanVienDTO();
                 nv.setMaNV(result.getString(1));
                 nv.setHoNV(result.getString(2));
                 nv.setTenNv(result.getString(3));
@@ -37,34 +52,35 @@ public class NhanVienDAO {
                 nv.setSdtNV(result.getString(5));
                 nv.setGtinhNV(result.getString(6));
                 nv.setChucVu(result.getString(7));
-                nv.setLamViec(result.getBoolean(8));
+                nv.setTTLamViec(result.getBoolean(8));
                 dsnv.add(nv);
             }
         } catch (Exception ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         return dsnv;
     }
-    public void addNV(NhanVien nv){
-        PreparedStatement statement=null;
+    public boolean add(NhanVienDTO nv){
         try {
+            PreparedStatement stm=null;
             String sql="insert into nhanvien values(?, ?, ?, ?, ?, ?, ?, ?)";
-            statement=connect.prepareCall(sql);
-            statement.setString(1,nv.getMaNV());
-            statement.setString(2,nv.getHoNV());
-            statement.setString(3,nv.getTenNv());
-            statement.setString(4,nv.getEmailNV());
-            statement.setString(5,nv.getSdtNV());
-            statement.setString(6,nv.getGtinhNV());
-            statement.setString(7,nv.getChucVu());
-            statement.setBoolean(8, true);
-            statement.execute();
+            stm = connect.prepareCall(sql);
+            stm.setString(1,nv.getMaNV());
+            stm.setString(2,nv.getHoNV());
+            stm.setString(3,nv.getTenNv());
+            stm.setString(4,nv.getEmailNV());
+            stm.setString(5,nv.getSdtNV());
+            stm.setString(6,nv.getGtinhNV());
+            stm.setString(7,nv.getChucVu());
+            stm.setBoolean(8, true);
+            return stm.execute();
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi ghi thông tin sinh viên.");
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
-    public void updateNV(NhanVien nv){
+    public boolean update(NhanVienDTO nv){
         try {
             String sql="update nhanvien set HoNV='"+nv.getHoNV()+
                     "', TenNV='"+nv.getTenNv()+
@@ -72,24 +88,21 @@ public class NhanVienDAO {
                     "', SDT='"+nv.getSdtNV()+
                     "', GioiTinh='"+nv.getGtinhNV()+
                     "', ChucVu='"+nv.getChucVu()+"' where MaNV='"+nv.getMaNV()+"'";
-            statement.executeUpdate(sql);
+            return statement.executeUpdate(sql)>0;
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                conn.Close();
-            } catch (Exception ex) {
-                Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
-    }
+        return false;
+    } 
     
-    public void updateThoiViec(String Manv){
+    public boolean TTLamviec(String Manv){
         try {
-            String sql="update nhanvien set LamViec='0' where MaNV='"+Manv+"'";
-            statement.executeUpdate(sql);
+            String sql="update nhanvien set TTLamViec='0' where MaNV='"+Manv+"'";
+            return statement.executeUpdate(sql)>0;
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        return false;
     }
 }
+

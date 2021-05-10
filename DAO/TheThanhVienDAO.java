@@ -30,7 +30,7 @@ public class TheThanhVienDAO {
         if(connect==null){
             try {
                 connect=conn.getConnect();
-                statement=conn.getStatement();
+                statement=connect.createStatement();
             } catch (Exception ex) {
                 Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -41,7 +41,7 @@ public class TheThanhVienDAO {
         ArrayList<TheThanhVienDTO> dsttv=new ArrayList<TheThanhVienDTO>();
         try {
             String sql="select * from thethanhvien";
-            result=conn.executeQuery(sql);
+            result=statement.executeQuery(sql);
             while(result.next()){
                 TheThanhVienDTO tv=new TheThanhVienDTO();
                 tv.setMaTTV(result.getString(1));
@@ -55,7 +55,7 @@ public class TheThanhVienDAO {
         }
         return dsttv;
     }
-    public void themTTV(TheThanhVienDTO ttv){
+    public boolean themTTV(TheThanhVienDTO ttv){
         try {
             PreparedStatement stm=null;
             String sql="insert into thethanhvien values(?, ?, ?, ?)";
@@ -64,21 +64,22 @@ public class TheThanhVienDAO {
             stm.setString(2,ttv.getTenTV());
             stm.setString(3,ttv.getSDT());
             stm.setDouble(4,ttv.getDiemTichLuy());
-            stm.execute();
+            return stm.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
-    public void suaTTV(TheThanhVienDTO ttv){
+    public boolean suaTTV(TheThanhVienDTO ttv){
         try {
-            String sql="update thethanhvien set MaTV='"+ttv.getMaTTV()
-                    +"', HoTen='"+ttv.getTenTV()
+            String sql="update thethanhvien set HoTen='"+ttv.getTenTV()
                     +"', SDT='"+ttv.getSDT()
-                    +", Diem='"+ttv.getDiemTichLuy()+"'";
-            statement.executeUpdate(sql);
+                    +"' where MaTV='"+ttv.getMaTTV()+"'";            
+            return statement.executeUpdate(sql)>0;
         } catch (SQLException ex) {
             Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     public void suaDiem(TheThanhVienDTO ttv){
         try {
@@ -89,14 +90,14 @@ public class TheThanhVienDAO {
             Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void xoaTTV(String matv){
+    public boolean xoaTTV(String matv){
         try {
             String sql="delete from thethanhvien where MaTV='"+matv+"'";
-            statement.execute(sql);
+            return statement.executeUpdate(sql)>0;
         } catch (SQLException ex) {
             Logger.getLogger(TheThanhVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        return false;
     }        
 
     

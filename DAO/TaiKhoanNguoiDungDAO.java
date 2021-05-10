@@ -73,13 +73,14 @@ public class TaiKhoanNguoiDungDAO {
 //            Logger.getLogger(TaiKhoanNguoiDungDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    } 
-    public void delete(String username){
+    public boolean delete(String username){
     
         try {
             String sql="delete from taikhoanND where username='"+username+"'";
-            statement.executeUpdate(sql);
+            return statement.executeUpdate(sql)>0;
         } catch (SQLException ex) {
             Logger.getLogger(TaiKhoanNguoiDungDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 }

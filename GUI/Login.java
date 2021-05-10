@@ -211,7 +211,6 @@ public class Login {
             }
         });
         
-        
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
